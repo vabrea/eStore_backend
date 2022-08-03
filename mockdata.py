@@ -1,6 +1,6 @@
 mock_data = [
 {
-    "category": "Womens",
+    "category": "Mens",
     "sport": "MLB",
     "title": "Women's MLB Los Angeles Angels Jersey",
     "price": 89.99,
