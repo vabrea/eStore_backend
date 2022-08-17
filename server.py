@@ -1,6 +1,6 @@
-from crypt import methods
+##from crypt import methods
 import json
-from turtle import home
+##from turtle import home
 from flask import Flask, request, abort
 from config import db
 from flask_cors import CORS
