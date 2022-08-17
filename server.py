@@ -4,6 +4,7 @@ from turtle import home
 from flask import Flask, request, abort
 from config import db
 from flask_cors import CORS
+from bson import ObjectId
 
 app = Flask ('server')
 CORS(app)
@@ -61,9 +62,14 @@ def save_product():
 
     return json.dumps(product)
 
+@app.route("/api/catalog/<id>", methods=["DELETE"])
+def delete_Product(id):
+    db.products.delete_one({"_id": ObjectId(id)})
+    print(id)
+    return json.dumps({'msg': 'Product deleted'})
 
 ####################################################
-############# API CATALOG ##########################
+############# API COUPONS ##########################
 ####################################################
 
 @app.route("/api/couponCodes", methods=["post"])
@@ -99,5 +105,11 @@ def get_coupon():
         all_coupons.append(coupon)
 
     return json.dumps(all_coupons)
+
+@app.route("/api/couponCodes/<id>", methods=["DELETE"])
+def delete_Coupon(id):
+    db.coupons.delete_one({"_id": ObjectId(id)})
+    print(id)
+    return json.dumps({'msg': 'Coupon deleted'})
 
 app.run(debug=True)
