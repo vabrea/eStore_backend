@@ -112,4 +112,27 @@ def delete_Coupon(id):
     print(id)
     return json.dumps({'msg': 'Coupon deleted'})
 
+@app.route("/api/couponCodes/<id>", methods=["PUT"])
+def update_coupon():
+    coupon = request.get_json()
+    db.coupons.update_one({"_id": ObjectId(id)})
+
+    if not "couponCode" in coupon or len(coupon["couponCode"]) < 5:
+        return abort(400, "Code is required and must contain at least 5 characters.")
+
+
+    if not "discount" in coupon:
+        return abort(400, "Discount is required")
+
+    if type(coupon["discount"]) != int and type(coupon["discount"]) != float:
+        return abort(400, "Please enter a valid number")
+
+    if coupon["discount"] > 35 or coupon["discount"] < 0:
+        return abort(400, "Discount must be between 1-35%")
+
+
+    coupon["_id"] = str(coupon["_id"])
+
+    return json.dumps(coupon)
+
 app.run(debug=True)
