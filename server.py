@@ -66,7 +66,21 @@ def save_product():
 def delete_Product(id):
     db.products.delete_one({"_id": ObjectId(id)})
     print(id)
-    return json.dumps({'msg': 'Product deleted'})
+    return json.dumps({'Product deleted'})
+
+@app.route("/api/catalog/<id>", methods=["PUT"])
+def update_Product(id):
+    cursor = db.products
+
+    cursor.update_one({'_id': ObjectId(id)}, {'$set': {
+        'sport': request.json['sport'],
+        'category': request.json['category'],
+        'title': request.json['title'],
+        'price': request.json['price'],
+        'image': request.json['image'] 
+    }})
+
+    return json.dumps(['product updated'])
 
 ####################################################
 ############# API COUPONS ##########################
@@ -113,26 +127,14 @@ def delete_Coupon(id):
     return json.dumps({'msg': 'Coupon deleted'})
 
 @app.route("/api/couponCodes/<id>", methods=["PUT"])
-def update_coupon():
-    coupon = request.get_json()
-    db.coupons.update_one({"_id": ObjectId(id)})
+def update_coupon(id):
+    cursor = db.coupons
 
-    if not "couponCode" in coupon or len(coupon["couponCode"]) < 5:
-        return abort(400, "Code is required and must contain at least 5 characters.")
+    cursor.update_one({'_id': ObjectId(id)}, {'$set': {
+        'couponCode': request.json['couponCode'],
+        'discount': request.json['discount']
+    }})
 
-
-    if not "discount" in coupon:
-        return abort(400, "Discount is required")
-
-    if type(coupon["discount"]) != int and type(coupon["discount"]) != float:
-        return abort(400, "Please enter a valid number")
-
-    if coupon["discount"] > 35 or coupon["discount"] < 0:
-        return abort(400, "Discount must be between 1-35%")
-
-
-    coupon["_id"] = str(coupon["_id"])
-
-    return json.dumps(coupon)
+    return json.dumps(['updated'])
 
 app.run(debug=True)
