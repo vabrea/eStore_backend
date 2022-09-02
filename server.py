@@ -84,6 +84,22 @@ def create_order():
     order = request.get_json()
     db.orders.insert_one(order)
 
+    order["_id"] = str(order["_id"])
+    order["products"] = str(order["products"])
+
+    return json.dumps(order)
+
+@app.route("/api/order")
+def get_order():
+    cursor = db.orders.find({})
+    all_orders = []
+
+    for order in cursor:
+        order["_id"] = str(order ["_id"])
+        order["products"] = str(order["products"])
+        all_orders.append(order)
+
+    return json.dumps(order)
 ####################################################
 ############# API COUPONS ##########################
 ####################################################

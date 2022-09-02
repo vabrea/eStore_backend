@@ -6,4 +6,11 @@ mock_data = [
     "price": 89.99,
     "image": "WMLBLAA.jpg"
 }
+{
+    "order": "1",
+    "prod": "{}",
+    "total": 0.00,
+    "payment": "Paypal"
+}
+
 ]
