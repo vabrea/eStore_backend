@@ -17,9 +17,6 @@ def root():
 def home():
     return "Hello There!"
 
-####################################################
-############# API CATALOG ##########################
-####################################################
 
 @app.route("/api/catalog")
 def get_catalog():
@@ -81,6 +78,11 @@ def update_Product(id):
     }})
 
     return json.dumps(['product updated'])
+
+@app.route("/api/order", methods=["POST"])
+def create_order():
+    order = request.get_json()
+    db.orders.insert_one(order)
 
 ####################################################
 ############# API COUPONS ##########################
